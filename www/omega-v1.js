@@ -10,7 +10,7 @@ var FLASH_TIMEOUT;
 var $audio = document.getElementsByTagName('audio')[0];
 var $button = document.getElementsByTagName('button')[0];
 var $ctr = document.getElementById('ctr');
-var CTR = parseInt($ctr.textContent, 10);
+var CTR = parseInt($ctr.textContent.replace(/,/g, ''), 10);
 var SOCK, RETRIES;
 
 function preload() {
