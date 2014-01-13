@@ -25,7 +25,7 @@ function index(req, resp, next) {
 		R.get(config.REDIS_KEY, function (err, ctr) {
 			if (err)
 				return next(err);
-			ctr = parseInt(ctr, 10) || 0;
+			ctr = commas(parseInt(ctr, 10) || 0);
 			var html = INDEX_HTML.replace('$CTR', ctr);
 			resp.end(html);
 		});
@@ -48,6 +48,10 @@ function index(req, resp, next) {
 	}
 
 	next();
+}
+
+function commas(x) {
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 function onOpen(conn) {
