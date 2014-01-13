@@ -8,6 +8,10 @@ body {
 }
 button {
 	outline: none;
+	user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
 }
 h1, button {
 	font-family: 'Open Sans', sans-serif;
