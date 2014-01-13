@@ -6,6 +6,9 @@ body {
 	background-position: center;
 	background-size: cover;
 }
+button {
+	outline: none;
+}
 h1, button {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 80px;

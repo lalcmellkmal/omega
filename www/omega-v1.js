@@ -37,6 +37,7 @@ $button.onclick = function (e) {
 		bg(ORIG);
 	}, 2500);
 
+	$button.blur();
 	return false;
 };
 
