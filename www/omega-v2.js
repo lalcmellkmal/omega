@@ -89,6 +89,7 @@ function connect() {
 	var url = location.href + 'shaberu';
 	SOCK = new SockJS(url);
 	SOCK.onopen = function () {
+		$error.style.visibility = 'hidden';
 		var me = SOCK;
 		setTimeout(function () {
 			if (me === SOCK)
@@ -112,6 +113,8 @@ function connect() {
 	};
 
 	SOCK.onclose = function () {
+		$error.textContent = 'Lost real-time connection.';
+		$error.style.visibility = 'visible';
 		if (RETRIES++ < 5)
 			setTimeout(connect, 3000);
 	};
