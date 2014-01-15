@@ -27,7 +27,8 @@ $button.onclick = function (e) {
 	req.open('POST', 'wub', true);
 	req.send();
 
-	$ctr.textContent = commas(++CTR);
+	CTR++;
+	render();
 
 	$audio.currentTime = 0;
 	setTimeout(function () { $audio.play(); }, 100);
@@ -80,8 +81,8 @@ function bg(info) {
 	document.body.style.backgroundImage = "url('" + info.image + "')";
 }
 
-function commas(x) {
-	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+function render() {
+	$ctr.textContent = CTR.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 function connect() {
@@ -101,7 +102,7 @@ function connect() {
 			if (ERRORS > 0 || n >= CTR) {
 				CTR = n;
 				upToDate();
-				$ctr.textContent = commas(n);
+				render();
 			}
 		}
 		else if (e.data == 'reload')
