@@ -9,7 +9,6 @@ var INDEX_HTML;
 var CHANGED = false;
 var R;
 var SOCKS = {};
-var SOCK_CTR = 0;
 
 function index(req, resp, next) {
 	var m = req.method;
@@ -60,9 +59,9 @@ function commas(x) {
 }
 
 function onOpen(conn) {
-	var id = ++SOCK_CTR;
-	conn.omegaID = id;
-	SOCKS[id] = conn;
+	if (!conn.id)
+		throw new Error('No socket ID?!');
+	SOCKS[conn.id] = conn;
 	conn.on('data', onMessage);
 	conn.once('close', onClose);
 }
@@ -83,7 +82,7 @@ function onMessage(message) {
 }
 
 function onClose() {
-	delete SOCKS[this.omegaID];
+	delete SOCKS[this.id];
 }
 
 function broadcast(msg) {
