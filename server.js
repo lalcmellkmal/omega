@@ -99,7 +99,9 @@ function main() {
 	process.on('SIGHUP', reload);
 
 	var app = connect()
-		.use(connect.static('www'))
+		.use(connect.static(__dirname + '/www', {
+			maxAge: config.DEBUG ? 3*24*60*60*1000 : 0,
+		}))
 		.use(index);
 
 	var sock = sockjs.createServer({
