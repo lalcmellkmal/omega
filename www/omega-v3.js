@@ -4,6 +4,7 @@ var ORIG = {image: 'init.jpg', color: ''};
 var FLASHES = [
 	{image: 'aaa.gif', color: '#54eff6'},
 	{image: 'omg.jpg', color: '#89ba9d'},
+	{image: 'eek.jpg', color: '#c6e1fe'},
 ];
 var FLASH_COLORS = ['aaa.gif', 'omg.jpg'];
 var FLASH_TIMEOUT;
