@@ -7,18 +7,28 @@ body {
 	background-size: cover;
 }
 button {
+	font-size: 80px;
 	outline: none;
+}
+h1, h2, button {
+	font-family: 'Open Sans', sans-serif;
 	user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	-webkit-user-select: none;
 }
-h1, button {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 80px;
-}
 h1 {
-	margin: 4em 1em 1em 1em;
 	color: white;
+	margin: 4em 80px 40px 80px;
+	font-size: 80px;
 	text-shadow: 0px 0px 10px #333;
+}
+h2 {
+	font-size: 30px;
+	font-weight: normal;
+	margin: 40px 80px 80px 80px;
+}
+#error {
+	color: red;
+	visibility: hidden;
 }

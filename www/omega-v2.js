@@ -10,8 +10,10 @@ var FLASH_TIMEOUT;
 var $audio = document.getElementsByTagName('audio')[0];
 var $button = document.getElementsByTagName('button')[0];
 var $ctr = document.getElementById('ctr');
+var $error = document.getElementById('error');
 var CTR = parseInt($ctr.textContent.replace(/,/g, ''), 10);
 var SOCK, RETRIES;
+var ERRORS = 0;
 
 function preload() {
 	for (var i = 0; i < FLASHES.length; i++)
@@ -21,6 +23,7 @@ preload();
 
 $button.onclick = function (e) {
 	var req = new XMLHttpRequest()
+	req.onreadystatechange = requestChanged;
 	req.open('POST', 'wub', true);
 	req.send();
 
@@ -40,6 +43,25 @@ $button.onclick = function (e) {
 	$button.blur();
 	return false;
 };
+
+function requestChanged() {
+	if (this.readyState != 4)
+		return;
+	if (this.status == 204) {
+		upToDate();
+	}
+	else {
+		ERRORS++;
+		$error.textContent = ERRORS + ' Ω lost!';
+		$error.style.visibility = 'visible';
+		console.error(this.statusText || this.status);
+	}
+}
+
+function upToDate() {
+	ERRORS = 0;
+	$error.style.visibility = 'hidden';
+}
 
 function bg(info) {
 	document.body.style.backgroundColor = info.color;
@@ -64,8 +86,9 @@ function connect() {
 	SOCK.onmessage = function (e) {
 		var n = parseInt(e.data, 10);
 		if (!isNaN(n)) {
-			if (n >= CTR) {
+			if (ERRORS > 0 || n >= CTR) {
 				CTR = n;
+				upToDate();
 				$ctr.textContent = commas(n);
 			}
 		}
