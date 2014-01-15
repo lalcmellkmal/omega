@@ -13,7 +13,7 @@ var $ctr = document.getElementById('ctr');
 var $error = document.getElementById('error');
 var CTR = parseInt($ctr.textContent.replace(/,/g, ''), 10);
 var SOCK, RETRIES;
-var ERRORS = 0;
+var ERRORS = 0, ERROR_TIMEOUT;
 
 function preload() {
 	for (var i = 0; i < FLASHES.length; i++)
@@ -52,6 +52,8 @@ function requestChanged() {
 	}
 	else {
 		ERRORS++;
+		if (!ERROR_TIMEOUT)
+			ERROR_TIMEOUT = setTimeout(pollAfterError, 1000);
 		$error.textContent = ERRORS + ' Ω lost!';
 		$error.style.visibility = 'visible';
 		console.error(this.statusText || this.status);
@@ -59,8 +61,18 @@ function requestChanged() {
 }
 
 function upToDate() {
+	if (ERROR_TIMEOUT) {
+		clearTimeout(ERROR_TIMEOUT);
+		ERROR_TIMEOUT = 0;
+	}
 	ERRORS = 0;
 	$error.style.visibility = 'hidden';
+}
+
+function pollAfterError() {
+	ERROR_TIMEOUT = 0;
+	/* our optimistic placeholder is probably wrong so refresh CTR */
+	try { SOCK.send('poll'); } catch (e) { console.error(e); }
 }
 
 function bg(info) {

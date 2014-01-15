@@ -63,7 +63,23 @@ function onOpen(conn) {
 	var id = ++SOCK_CTR;
 	conn.omegaID = id;
 	SOCKS[id] = conn;
+	conn.on('data', onMessage);
 	conn.once('close', onClose);
+}
+
+function onMessage(message) {
+	if (message == 'poll') {
+		var sock = this;
+		R.get(config.REDIS_KEY, function (err, ctr) {
+			if (err)
+				return console.error(err);
+			if (sock.writable)
+				sock.write(parseInt(ctr, 10) || 0);
+		});
+	}
+	else {
+		this.end();
+	}
 }
 
 function onClose() {
