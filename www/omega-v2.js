@@ -21,7 +21,7 @@ preload();
 
 $button.onclick = function (e) {
 	var req = new XMLHttpRequest()
-	req.open('POST', '.', true);
+	req.open('POST', 'wub', true);
 	req.send();
 
 	$ctr.textContent = commas(++CTR);

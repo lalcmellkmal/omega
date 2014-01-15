@@ -32,12 +32,17 @@ function index(req, resp, next) {
 		return;
 	}
 
-	if (req.url == '/' && m == 'POST') {
+	if ((req.url == '/' || req.url == '/wub') && m == 'POST') {
 		R.incr(config.REDIS_KEY, function (err) {
 			if (err)
 				return next(err);
 			CHANGED = true;
 
+			if (req.url == '/wub') {
+				resp.writeHead(204);
+				resp.end();
+				return;
+			}
 			resp.writeHead(303, {
 				Location: '.',
 				'Content-Type': 'text/plain; charset=utf-8',
